@@ -6,7 +6,13 @@ import tempfile
 import os
 from typing import Optional
 import edge_tts
-import pyttsx3
+
+# pyttsx3 仅本地使用，云端跳过
+try:
+    import pyttsx3
+    PYTTSX3_AVAILABLE = True
+except ImportError:
+    PYTTSX3_AVAILABLE = False
 
 
 class TTSEngine:
@@ -23,6 +29,9 @@ class TTSEngine:
     
     def _init_local_tts(self):
         """初始化本地TTS引擎"""
+        if not PYTTSX3_AVAILABLE:
+            self.local_tts = None
+            return
         try:
             self.local_tts = pyttsx3.init()
             self.local_tts.setProperty('rate', 150)
