@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语听写小助手 📚</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-cream: #FFF9E6;
+            --color-yellow: #FFE066;
+            --color-yellow-light: #FFF5CC;
+            --color-pink: #FFB3BA;
+            --color-pink-light: #FFE0E3;
+            --color-mint: #B5EAD7;
+            --color-mint-light: #E3F7F0;
+            --color-blue: #A0D8EF;
+            --color-blue-light: #DFF4FC;
+            --color-lavender: #D4C5F9;
+            --color-lavender-light: #EDE8FD;
+            --color-text: #4A4A68;
+            --color-text-light: #7A7A99;
+            --color-white: #FFFFFF;
+            --shadow-soft: 0 4px 20px rgba(144, 144, 176, 0.12);
+            --shadow-hover: 0 8px 30px rgba(144, 144, 176, 0.18);
+            --radius-sm: 16px;
+            --radius-md: 24px;
+            --radius-lg: 32px;
+            --radius-xl: 48px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Fredoka', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink-light) 50%, var(--color-mint-light) 100%);
+            min-height: 100vh;
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 浮动背景装饰 */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bg-decoration .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-decoration .blob:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: var(--color-yellow);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .bg-decoration .blob:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: var(--color-pink);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -7s;
+        }
+
+        .bg-decoration .blob:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: var(--color-mint);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 30px) scale(1.02); }
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: relative;
+            z-index: 10;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-text);
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-xl);
+            background: var(--color-white);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--color-yellow-light), var(--color-pink-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, var(--color-yellow), var(--color-pink));
+            color: var(--color-white);
+        }
+
+        /* 主容器 */
+        .main-container {
+            position: relative;
+            z-index: 5;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        /* 欢迎卡片 */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--color-white) 0%, var(--color-yellow-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 50px 60px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--color-pink) 0%, transparent 70%);
+            opacity: 0.2;
+            border-radius: 50%;
+        }
+
+        .welcome-card h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .welcome-card h1 span {
+            display: inline-block;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        .welcome-card h1 span:nth-child(2) { animation-delay: 0.1s; }
+        .welcome-card h1 span:nth-child(3) { animation-delay: 0.2s; }
+        .welcome-card h1 span:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .welcome-card p {
+            font-size: 1.25rem;
+            color: var(--color-text-light);
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* 主按钮区域 */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+            animation: slideInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .action-btn {
+            font-family: 'Fredoka', sans-serif;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: 40px 30px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .action-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .action-btn-primary {
+            background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-lavender) 100%);
+        }
+
+        .action-btn-secondary {
+            background: linear-gradient(135deg, var(--color-mint) 0%, var(--color-blue) 100%);
+        }
+
+        .action-btn-icon {
+            font-size: 4rem;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .action-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 单词列表示示 */
+        .word-list-section {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-soft);
+            animation: slideInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .word-count {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            background: var(--color-yellow-light);
+            padding: 6px 14px;
+            border-radius: var(--radius-xl);
+        }
+
+        .word-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .word-card {
+            background: linear-gradient(135deg, var(--color-blue-light) 0%, var(--color-mint-light) 100%);
+            border-radius: var(--radius-md);
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .word-card:nth-child(2) {
+            background: linear-gradient(135deg, var(--color-pink-light) 0%, var(--color-lavender-light) 100%);
+        }
+
+        .word-card:nth-child(3) {
+            background: linear-gradient(135deg, var(--color-yellow-light) 0%, var(--color-pink-light) 100%);
+        }
+
+        .word-card:nth-child(4) {
+            background: linear-gradient(135deg, var(--color-mint-light) 0%, var(--color-blue-light) 100%);
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .word-card::after {
+            content: '🔊';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.9rem;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .word-card:hover::after {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .word-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 5px;
+        }
+
+        .word-phonetic {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* 设置区域 */
+        .settings-section {
+            background: linear-gradient(135deg, var(--color-lavender-light) 0%, var(--color-pink-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 35px 40px;
+            box-shadow: var(--shadow-soft);
+            animation: slideInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .setting-label {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* 滑块样式 */
+        .slider-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 10px;
+            background: var(--color-white);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-pink), var(--color-lavender));
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .slider-value {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--color-text);
+            min-width: 50px;
+            text-align: center;
+            background: var(--color-white);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* 下拉选择器 */
+        .select-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            padding: 14px 45px 14px 20px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text);
+            background: var(--color-white);
+            border: none;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            appearance: none;
+            transition: all 0.3s ease;
+        }
+
+        .select-wrapper select:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .select-wrapper select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 179, 186, 0.3);
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-light);
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .footer-heart {
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .welcome-card {
+                padding: 35px 30px;
+            }
+
+            .welcome-card h1 {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .action-btn {
+                padding: 30px 25px;
+            }
+
+            .action-btn-icon {
+                font-size: 3rem;
+            }
+
+            .word-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 20px 15px 40px;
+            }
+
+            .welcome-card h1 {
+                font-size: 1.6rem;
+            }
+
+            .word-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* 装饰性元素 */
+        .floating-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.6;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="bg-decoration">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <!-- 浮动星星装饰 -->
+    <div class="floating-stars" id="stars"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <span class="logo-icon">📚</span>
+            <span>英语听写小助手</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" class="active">🏠 首页</a></li>
+            <li><a href="#">📝 录题</a></li>
+            <li><a href="#">▶️ 开始听写</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="main-container">
+        <!-- 欢迎卡片 -->
+        <div class="welcome-card">
+            <h1>
+                <span>👋</span>
+                <span>欢</span>
+                <span>迎</span>
+                <span>!</span>
+            </h1>
+            <p>准备好开始今天的英语听写练习了吗？上传单词表，让学习变得轻松有趣！✨</p>
+        </div>
+
+        <!-- 主要操作按钮 -->
+        <div class="action-buttons">
+            <button class="action-btn action-btn-primary">
+                <span class="action-btn-icon">📷</span>
+                <span>拍照录题</span>
+            </button>
+            <button class="action-btn action-btn-secondary">
+                <span class="action-btn-icon">🔊</span>
+                <span>开始听写</span>
+            </button>
+        </div>
+
+        <!-- 单词列表示示 -->
+        <div class="word-list-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    📝 当前单词表
+                </h2>
+                <span class="word-count">4 个单词</span>
+            </div>
+            <div class="word-cards">
+                <div class="word-card">
+                    <div class="word-text">apple</div>
+                    <div class="word-phonetic">/ˈæp.əl/</div>
+                </div>
+                <div class="word-card">
+                    <div class="word-text">banana</div>
+                    <div class="word-phonetic">/bəˈnæn.ə/</div>
+                </div>
+                <div class="word-card">
+                    <div class="word-text">orange</div>
+                    <div class="word-phonetic">/ˈɒr.ɪndʒ/</div>
+                </div>
+                <div class="word-card">
+                    <div class="word-text">grape</div>
+                    <div class="word-phonetic">/ɡreɪp/</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置选项 -->
+        <div class="settings-section">
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <label class="setting-label">
+                        🐢🐰 语音语速
+                    </label>
+                    <div class="setting-control">
+                        <div class="slider-container">
+                            <span style="font-size: 1.2rem;">🐢</span>
+                            <input type="range" class="slider" id="speedSlider" min="0.5" max="1.5" step="0.1" value="1.0">
+                            <span style="font-size: 1.2rem;">🐰</span>
+                        </div>
+                        <div class="slider-value" id="speedValue">1.0x</div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label class="setting-label">
+                        🎙️ 发音音色
+                    </label>
+                    <div class="setting-control">
+                        <div class="select-wrapper">
+                            <select id="voiceSelect">
+                                <option value="female">👩 女声 (温柔)</option>
+                                <option value="male">👨 男声 (沉稳)</option>
+                                <option value="child">🧒 童声 (活泼)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>用 <span class="footer-heart">💛</span> 打造 · 让学习充满乐趣</p>
+    </footer>
+
+    <script>
+        // 生成随机星星
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starChars = ['✨', '⭐', '🌟', '💫'];
+            const numStars = 15;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (2 + Math.random() * 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 语速滑块交互
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+
+        speedSlider.addEventListener('input', function() {
+            speedValue.textContent = this.value + 'x';
+        });
+
+        // 按钮点击效果
+        document.querySelectorAll('.action-btn, .word-card').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // 初始化
+        createStars();
+    </script>
+</body>
+</html>

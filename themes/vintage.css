@@ -1,0 +1,461 @@
+/* ============================================
+   主题：复古学院风 (Vintage)
+   定位：文艺青年、情怀用户
+   配色：深绿/棕/金 + 羊皮纸纹理
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600;700&display=swap');
+
+/* 全局变量 */
+:root {
+    --color-primary: #1a3a2f;
+    --color-secondary: #5d4037;
+    --color-accent: #c9a227;
+    --color-accent-light: #e8d5a3;
+    --color-paper: #f5f0e6;
+    --color-paper-dark: #e8e0d0;
+    --color-ink: #2c1810;
+    --color-warm-gray: #8b7355;
+    
+    --font-display: 'Cinzel', 'Playfair Display', serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Crimson Text', Georgia, serif;
+}
+
+/* ============================================
+   Streamlit 全局覆盖
+   ============================================ */
+
+/* 主背景 */
+.stApp {
+    background: 
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #0f1f1a 0%, #1a2f24 50%, #0f1f1a 100%) !important;
+    background-blend-mode: overlay, normal !important;
+    font-family: var(--font-body), Georgia, serif !important;
+}
+
+/* 主标题 */
+.main-title {
+    font-family: var(--font-display) !important;
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    color: var(--color-accent) !important;
+    text-align: center !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(201, 162, 39, 0.3) !important;
+    margin-bottom: 2rem !important;
+}
+
+.main-title::after {
+    content: 'English Dictation';
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: var(--color-accent-light);
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+/* ============================================
+   书本卡片容器
+   ============================================ */
+
+/* 主内容区 */
+.main .block-container {
+    background: 
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.08'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, var(--color-paper) 0%, var(--color-paper-dark) 100%) !important;
+    border-radius: 4px 12px 12px 4px !important;
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.4),
+        0 2px 8px rgba(0,0,0,0.2),
+        inset 30px 0 40px -20px rgba(0,0,0,0.15),
+        inset -2px 0 5px rgba(255,255,255,0.5) !important;
+    padding: 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    position: relative !important;
+}
+
+/* 书脊效果 */
+.main .block-container::before {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(93, 64, 55, 0.3) 10%,
+        rgba(93, 64, 55, 0.3) 90%,
+        transparent 100%
+    );
+    box-shadow: 2px 0 3px rgba(0,0,0,0.1), 5px 0 8px rgba(0,0,0,0.05);
+}
+
+/* 章节标题 */
+.main h2 {
+    font-family: var(--font-display) !important;
+    font-size: 1.6rem !important;
+    color: var(--color-primary) !important;
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 2px solid transparent !important;
+    border-image: linear-gradient(90deg, 
+        transparent, 
+        var(--color-secondary), 
+        var(--color-accent),
+        var(--color-secondary), 
+        transparent
+    ) 1 !important;
+}
+
+.main h3 {
+    font-family: var(--font-display) !important;
+    color: var(--color-primary) !important;
+    font-size: 1.1rem !important;
+}
+
+/* ============================================
+   按钮样式
+   ============================================ */
+
+.stButton > button {
+    font-family: var(--font-display) !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    padding: 1rem 2rem !important;
+    border: 2px solid var(--color-secondary) !important;
+    border-radius: 3px !important;
+    background: linear-gradient(180deg, 
+        #f5f0e6 0%, 
+        #e8e0d0 50%,
+        #ddd5c5 100%) !important;
+    color: var(--color-primary) !important;
+    box-shadow: 
+        0 4px 6px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.8) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+}
+
+.stButton > button::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 1px solid var(--color-accent);
+    opacity: 0.3;
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(180deg, 
+        #e8e0d0 0%, 
+        #ddd5c5 50%,
+        #d0c8b8 100%) !important;
+    box-shadow: 
+        0 6px 12px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.8) !important;
+    transform: translateY(-2px) !important;
+}
+
+.stButton > button[kind="primary"] {
+    background: linear-gradient(180deg, 
+        var(--color-primary) 0%, 
+        #0f1f1a 100%) !important;
+    color: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(180deg, 
+        #1e4a3d 0%, 
+        #1a3a2f 100%) !important;
+    box-shadow: 
+        0 6px 12px rgba(0,0,0,0.3),
+        0 0 20px rgba(201, 162, 39, 0.2) !important;
+}
+
+/* ============================================
+   单词卡片
+   ============================================ */
+
+/* 单词列表区域 */
+.word-list-section {
+    margin: 2rem 0 !important;
+}
+
+/* 单词卡片 */
+.word-card {
+    background: 
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperGrain)' opacity='0.05'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #faf8f3 0%, #f0ebe0 100%) !important;
+    border: 1px solid var(--color-warm-gray) !important;
+    border-radius: 2px !important;
+    padding: 1.5rem !important;
+    box-shadow: 
+        2px 2px 8px rgba(0,0,0,0.08),
+        inset 0 0 20px rgba(139, 115, 85, 0.05) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+}
+
+.word-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--color-accent) 0%, 
+        var(--color-accent-light) 50%, 
+        var(--color-accent) 100%);
+    opacity: 0.6;
+}
+
+.word-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 
+        4px 8px 15px rgba(0,0,0,0.12),
+        inset 0 0 20px rgba(139, 115, 85, 0.05) !important;
+}
+
+/* 单词内容 */
+.word-card .word-english {
+    font-family: var(--font-heading) !important;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: var(--color-primary) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.word-card .word-chinese {
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    color: var(--color-secondary) !important;
+    font-style: italic !important;
+}
+
+.word-card .word-phonetic {
+    font-size: 0.85rem !important;
+    color: var(--color-warm-gray) !important;
+    font-family: var(--font-body) !important;
+}
+
+/* ============================================
+   输入框和表单
+   ============================================ */
+
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea {
+    font-family: var(--font-body) !important;
+    background: linear-gradient(180deg, #faf8f3 0%, #f0ebe0 100%) !important;
+    border: 2px solid var(--color-warm-gray) !important;
+    border-radius: 3px !important;
+    padding: 1rem !important;
+    color: var(--color-ink) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--color-accent) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.2) !important;
+}
+
+/* 文件上传 */
+.stFileUploader > div {
+    background: rgba(245, 240, 230, 0.5) !important;
+    border: 2px dashed var(--color-warm-gray) !important;
+    border-radius: 4px !important;
+}
+
+/* ============================================
+   选择器和滑块
+   ============================================ */
+
+/* 下拉选择器 */
+.stSelectbox > div > div > div {
+    font-family: var(--font-body) !important;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235d4037' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center,
+        linear-gradient(180deg, #faf8f3 0%, #f0ebe0 100%) !important;
+    border: 2px solid var(--color-warm-gray) !important;
+    border-radius: 3px !important;
+    color: var(--color-primary) !important;
+}
+
+/* 滑块 */
+stSlider > div > div > div > div {
+    background: linear-gradient(180deg, #d0c8b8 0%, #e8e0d0 100%) !important;
+    border-radius: 3px !important;
+    height: 6px !important;
+}
+
+.stSlider > div > div > div > div > div {
+    background: linear-gradient(180deg, 
+        var(--color-accent) 0%, 
+        #a08020 100%) !important;
+}
+
+.stSlider > div > div > div > div > div > div {
+    background: linear-gradient(180deg, var(--color-accent) 0%, #a08020 100%) !important;
+    border: 2px solid var(--color-secondary) !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+}
+
+/* 单选框 */
+.stRadio > div {
+    background: rgba(245, 240, 230, 0.5) !important;
+    border: 1px solid var(--color-warm-gray) !important;
+    border-radius: 4px !important;
+    padding: 1rem !important;
+}
+
+/* ============================================
+   折叠面板
+   ============================================ */
+
+.stExpander {
+    background: rgba(245, 240, 230, 0.5) !important;
+    border: 1px solid var(--color-warm-gray) !important;
+    border-radius: 4px !important;
+}
+
+.stExpander > div > div {
+    background: transparent !important;
+}
+
+/* ============================================
+   消息提示
+   ============================================ */
+
+stSuccess {
+    background: rgba(26, 58, 47, 0.1) !important;
+    border-left: 3px solid var(--color-primary) !important;
+    border-radius: 3px !important;
+}
+
+stError {
+    background: rgba(93, 64, 55, 0.1) !important;
+    border-left: 3px solid var(--color-secondary) !important;
+    border-radius: 3px !important;
+}
+
+stInfo {
+    background: rgba(201, 162, 39, 0.1) !important;
+    border-left: 3px solid var(--color-accent) !important;
+    border-radius: 3px !important;
+}
+
+/* ============================================
+   进度条
+   ============================================ */
+
+.stProgress > div > div > div {
+    background: linear-gradient(180deg, #d0c8b8 0%, #e8e0d0 100%) !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--color-warm-gray) !important;
+}
+
+.stProgress > div > div > div > div {
+    background: linear-gradient(180deg, 
+        var(--color-accent) 0%, 
+        #a08020 50%,
+        var(--color-accent) 100%) !important;
+    border-radius: 5px !important;
+}
+
+/* ============================================
+   页脚
+   ============================================ */
+
+.footer {
+    text-align: center !important;
+    padding: 2rem !important;
+    margin-top: 2rem !important;
+    border-top: 1px solid rgba(201, 162, 39, 0.2) !important;
+    color: var(--color-warm-gray) !important;
+    font-family: var(--font-body) !important;
+    font-style: italic !important;
+}
+
+/* ============================================
+   装饰元素
+   ============================================ */
+
+/* 分隔线装饰 */
+.divider-ornate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    gap: 15px;
+}
+
+.divider-ornate::before,
+.divider-ornate::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-warm-gray), transparent);
+}
+
+/* 模式徽章 */
+.mode-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid;
+    border-radius: 3px;
+    margin: 5px;
+}
+
+.mode-badge.en {
+    background: rgba(26, 58, 47, 0.1);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.mode-badge.cn {
+    background: rgba(93, 64, 55, 0.1);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 1.8rem !important;
+        letter-spacing: 2px !important;
+    }
+    
+    .main .block-container {
+        padding: 1.5rem !important;
+        margin: 1rem !important;
+    }
+    
+    .stButton > button {
+        width: 100% !important;
+    }
+}

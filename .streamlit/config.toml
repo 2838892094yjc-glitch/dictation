@@ -1,0 +1,37 @@
+# Streamlit 配置文件
+# 用于自动英语听写软件
+
+[theme]
+# 主题基础配置（当未选择自定义主题时使用）
+primaryColor = "#1f77b4"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f0f2f6"
+textColor = "#262730"
+font = "sans serif"
+
+[server]
+# 服务器配置 - 适配 Streamlit Cloud
+headless = true
+port = 8501
+enableCORS = true
+enableXsrfProtection = true
+# serverAddress 留空以适配 Streamlit Cloud
+
+[browser]
+# 浏览器配置
+gatherUsageStats = false
+
+[runner]
+# 运行器配置
+magicEnabled = true
+fastReruns = true
+
+[client]
+# 客户端配置
+showErrorDetails = true
+toolbarMode = "minimal"
+
+[logger]
+# 日志配置
+level = "info"
+messageFormat = "%(asctime)s %(message)s"

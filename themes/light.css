@@ -1,0 +1,481 @@
+/* ============================================
+   主题：浅色模式 (Light Mode)
+   定位：清新、明亮、专业
+   配色：白色/浅灰/蓝色点缀
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 全局变量 */
+:root {
+    /* 主色调 */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8f9fa;
+    --color-bg-tertiary: #e9ecef;
+    --color-accent: #0066cc;
+    --color-accent-light: #3385d6;
+    --color-blue: #1f77b4;
+    --color-blue-light: #4a9fd8;
+    --color-purple: #8e44ad;
+    --color-purple-light: #a569bd;
+    --color-green: #27ae60;
+    --color-green-light: #52c77a;
+
+    /* 文字颜色 */
+    --color-text: #2c3e50;
+    --color-text-secondary: #5a6c7d;
+    --color-text-muted: #95a5a6;
+    --color-white: #ffffff;
+
+    /* 边框和分隔线 */
+    --color-border: #dee2e6;
+    --color-divider: #e0e0e0;
+
+    /* 阴影和圆角 */
+    --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.12);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* 字体 */
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ============================================
+   Streamlit 全局覆盖
+   ============================================ */
+
+/* 主背景 */
+.stApp {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+    font-family: var(--font-body) !important;
+    color: var(--color-text) !important;
+}
+
+/* 主容器 */
+.main .block-container {
+    padding: 2rem 3rem !important;
+    max-width: 1400px !important;
+}
+
+/* ============================================
+   标题和文本
+   ============================================ */
+
+/* 页面标题 */
+h1 {
+    color: var(--color-text) !important;
+    font-weight: 700 !important;
+    font-size: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* 副标题 */
+h2, h3 {
+    color: var(--color-text) !important;
+    font-weight: 600 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* 普通文本 */
+p, span, div {
+    color: var(--color-text) !important;
+}
+
+/* Markdown 文本 */
+.stMarkdown {
+    color: var(--color-text) !important;
+}
+
+/* ============================================
+   按钮样式
+   ============================================ */
+
+/* 主按钮 */
+.stButton > button {
+    background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    box-shadow: var(--shadow-soft) !important;
+    transition: all 0.3s ease !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-hover) !important;
+    background: linear-gradient(135deg, var(--color-blue-light) 0%, var(--color-purple-light) 100%) !important;
+}
+
+.stButton > button:active {
+    transform: translateY(0) !important;
+}
+
+/* Primary 按钮 */
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%) !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%) !important;
+}
+
+/* ============================================
+   输入框样式
+   ============================================ */
+
+/* 文本输入框 */
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea {
+    background-color: var(--color-white) !important;
+    color: var(--color-text) !important;
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--color-blue) !important;
+    box-shadow: 0 0 0 3px rgba(31, 119, 180, 0.1) !important;
+    outline: none !important;
+}
+
+/* 输入框标签 */
+.stTextInput > label,
+.stTextArea > label {
+    color: var(--color-text) !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* ============================================
+   选择框样式
+   ============================================ */
+
+/* Select 下拉框 */
+.stSelectbox > div > div > div {
+    background-color: var(--color-white) !important;
+    color: var(--color-text) !important;
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.stSelectbox > div > div > div:hover {
+    border-color: var(--color-blue) !important;
+}
+
+/* 下拉菜单 */
+.stSelectbox [data-baseweb="popover"] {
+    background-color: var(--color-white) !important;
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.stSelectbox [role="option"] {
+    background-color: var(--color-white) !important;
+    color: var(--color-text) !important;
+}
+
+.stSelectbox [role="option"]:hover {
+    background-color: var(--color-bg-secondary) !important;
+}
+
+/* ============================================
+   复选框和单选框
+   ============================================ */
+
+/* 复选框 */
+.stCheckbox {
+    color: var(--color-text) !important;
+}
+
+.stCheckbox > label {
+    color: var(--color-text) !important;
+}
+
+.stCheckbox input[type="checkbox"] {
+    accent-color: var(--color-blue) !important;
+}
+
+/* 单选框 */
+.stRadio > label {
+    color: var(--color-text) !important;
+}
+
+.stRadio [role="radiogroup"] label {
+    color: var(--color-text) !important;
+}
+
+.stRadio input[type="radio"] {
+    accent-color: var(--color-blue) !important;
+}
+
+/* ============================================
+   卡片和容器
+   ============================================ */
+
+/* 通用卡片 */
+.element-container {
+    background-color: transparent !important;
+}
+
+/* Expander 展开面板 */
+.streamlit-expanderHeader {
+    background-color: var(--color-white) !important;
+    color: var(--color-text) !important;
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.streamlit-expanderHeader:hover {
+    background-color: var(--color-bg-secondary) !important;
+    border-color: var(--color-blue) !important;
+}
+
+.streamlit-expanderContent {
+    background-color: var(--color-white) !important;
+    border: 2px solid var(--color-border) !important;
+    border-top: none !important;
+    border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+    padding: 1rem !important;
+}
+
+/* ============================================
+   消息提示框
+   ============================================ */
+
+/* Success 成功提示 */
+.stSuccess {
+    background-color: rgba(39, 174, 96, 0.1) !important;
+    color: var(--color-green) !important;
+    border-left: 4px solid var(--color-green) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+}
+
+/* Info 信息提示 */
+.stInfo {
+    background-color: rgba(31, 119, 180, 0.1) !important;
+    color: var(--color-blue) !important;
+    border-left: 4px solid var(--color-blue) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+}
+
+/* Warning 警告提示 */
+.stWarning {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+    color: #f39c12 !important;
+    border-left: 4px solid #f39c12 !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+}
+
+/* Error 错误提示 */
+.stError {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+    color: #e74c3c !important;
+    border-left: 4px solid #e74c3c !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+}
+
+/* ============================================
+   侧边栏
+   ============================================ */
+
+/* 侧边栏背景 */
+section[data-testid="stSidebar"] {
+    background-color: var(--color-white) !important;
+    border-right: 2px solid var(--color-border) !important;
+}
+
+section[data-testid="stSidebar"] > div {
+    background-color: var(--color-white) !important;
+}
+
+/* 侧边栏文本 */
+section[data-testid="stSidebar"] * {
+    color: var(--color-text) !important;
+}
+
+/* ============================================
+   进度条
+   ============================================ */
+
+.stProgress > div > div > div {
+    background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-purple) 100%) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.stProgress > div > div {
+    background-color: var(--color-bg-tertiary) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* ============================================
+   分隔线
+   ============================================ */
+
+hr {
+    border-color: var(--color-divider) !important;
+    margin: 2rem 0 !important;
+}
+
+/* ============================================
+   文件上传器
+   ============================================ */
+
+.stFileUploader {
+    background-color: var(--color-white) !important;
+    border: 2px dashed var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 2rem !important;
+}
+
+.stFileUploader:hover {
+    border-color: var(--color-blue) !important;
+}
+
+.stFileUploader label {
+    color: var(--color-text) !important;
+}
+
+/* ============================================
+   Metric 指标卡片
+   ============================================ */
+
+[data-testid="stMetricValue"] {
+    color: var(--color-text) !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--color-text-secondary) !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stMetricDelta"] {
+    color: var(--color-green) !important;
+}
+
+/* ============================================
+   Slider 滑块
+   ============================================ */
+
+.stSlider > div > div > div > div {
+    background-color: var(--color-blue) !important;
+}
+
+.stSlider > div > div > div {
+    background-color: var(--color-bg-tertiary) !important;
+}
+
+/* ============================================
+   表格
+   ============================================ */
+
+.stDataFrame {
+    background-color: var(--color-white) !important;
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.stDataFrame td, .stDataFrame th {
+    color: var(--color-text) !important;
+    background-color: var(--color-white) !important;
+    border-color: var(--color-border) !important;
+}
+
+/* ============================================
+   Spinner 加载动画
+   ============================================ */
+
+.stSpinner > div {
+    border-top-color: var(--color-blue) !important;
+}
+
+/* ============================================
+   自定义样式
+   ============================================ */
+
+/* 导航按钮 */
+.nav-btn {
+    background-color: var(--color-white) !important;
+    color: var(--color-text) !important;
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.75rem 1.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-btn:hover {
+    background-color: var(--color-bg-secondary) !important;
+    border-color: var(--color-blue) !important;
+}
+
+.nav-btn-active {
+    background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+}
+
+/* 标题样式 */
+.nav-title {
+    color: var(--color-text) !important;
+}
+
+/* ============================================
+   滚动条美化
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-blue);
+}
+
+/* ============================================
+   响应式调整
+   ============================================ */
+
+@media (max-width: 768px) {
+    .main .block-container {
+        padding: 1rem !important;
+    }
+
+    h1 {
+        font-size: 2rem !important;
+    }
+
+    .stButton > button {
+        padding: 0.6rem 1.5rem !important;
+        font-size: 0.9rem !important;
+    }
+}
