@@ -9,9 +9,16 @@ import time
 import threading
 from PIL import Image
 
-from src.ocr_engine import extract_words_from_image
 from src.ai_corrector import correct_spelling
 from data.vocabulary_store import VocabularyStore
+
+# OCR 延迟导入（云端可能不可用）
+def get_ocr_engine():
+    try:
+        from src.ocr_engine import extract_words_from_image
+        return extract_words_from_image
+    except ImportError:
+        return None
 
 
 def preload_all_audio():
@@ -116,10 +123,17 @@ def _render_import_section():
 
     if uploaded_file:
         with st.spinner("🔍 识别中..."):
+            # 检查 OCR 是否可用
+            ocr_func = get_ocr_engine()
+            if ocr_func is None:
+                st.error("⚠️ OCR 功能在云端暂不可用，请使用手动输入方式添加词库")
+                st.info("💡 如需 OCR 功能，请在本地运行应用")
+                return
+
             img_path = f"/tmp/{uploaded_file.name}"
             Image.open(uploaded_file).save(img_path)
 
-            raw_words = extract_words_from_image(img_path)
+            raw_words = ocr_func(img_path)
 
             if use_ai_correct and raw_words:
                 with st.spinner("🤖 AI纠正中..."):
