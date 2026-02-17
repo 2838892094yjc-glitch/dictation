@@ -3,15 +3,26 @@ OCR引擎模块 - 使用PaddleOCR识别图片中的文字
 """
 import re
 from typing import List, Tuple, Optional
-from paddleocr import PaddleOCR
 from PIL import Image
 import numpy as np
+
+# PaddleOCR 仅本地使用，云端跳过
+try:
+    from paddleocr import PaddleOCR
+    PADDLEOCR_AVAILABLE = True
+except ImportError:
+    PADDLEOCR_AVAILABLE = False
 
 
 class OCREngine:
     """OCR识别引擎"""
-    
+
     def __init__(self):
+        if not PADDLEOCR_AVAILABLE:
+            self.ocr = None
+            print("⚠️ PaddleOCR 不可用，OCR功能仅限本地使用")
+            return
+
         # 初始化PaddleOCR，支持中英文
         print("正在初始化OCR引擎，首次加载需要下载模型...")
         self.ocr = PaddleOCR(
@@ -23,13 +34,16 @@ class OCREngine:
     def recognize(self, image_path: str) -> List[Tuple[str, float]]:
         """
         识别图片中的文字
-        
+
         Args:
             image_path: 图片路径
-            
+
         Returns:
             识别结果列表 [(文字, 置信度), ...]
         """
+        if self.ocr is None:
+            return []
+
         result = self.ocr.ocr(image_path)
         
         texts = []
