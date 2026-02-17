@@ -35,3 +35,6 @@ toolbarMode = "minimal"
 # 日志配置
 level = "info"
 messageFormat = "%(asctime)s %(message)s"
+
+# 敏感配置 (在 secrets.toml 中配置)
+# OCR_API_URL = "https://your-ngrok-url.ngrok.io"  # 本地 OCR API 地址

@@ -7,6 +7,7 @@ import json
 import random
 import time
 import threading
+import io
 from PIL import Image
 
 from src.ai_corrector import correct_spelling
@@ -19,6 +20,26 @@ def get_ocr_engine():
         return extract_words_from_image
     except ImportError:
         return None
+
+# OCR API 客户端
+def get_ocr_api_words(image_file):
+    """调用 OCR API 提取单词"""
+    try:
+        from src.ocr_client import get_ocr_client
+        client = get_ocr_client()
+        if client.is_available():
+            # 读取图片数据
+            img = Image.open(image_file)
+            img_byte_arr = io.BytesIO()
+            img.save(img_byte_arr, format='JPEG')
+            img_data = img_byte_arr.getvalue()
+
+            # 调用 API
+            words = client.extract_words(img_data)
+            return words
+    except Exception as e:
+        print(f"OCR API 调用失败: {e}")
+    return []
 
 
 def preload_all_audio():
@@ -123,17 +144,22 @@ def _render_import_section():
 
     if uploaded_file:
         with st.spinner("🔍 识别中..."):
-            # 检查 OCR 是否可用
-            ocr_func = get_ocr_engine()
-            if ocr_func is None:
-                st.error("⚠️ OCR 功能在云端暂不可用，请使用手动输入方式添加词库")
-                st.info("💡 如需 OCR 功能，请在本地运行应用")
-                return
+            # 尝试使用 OCR API (云端优先)
+            api_words = get_ocr_api_words(uploaded_file)
 
-            img_path = f"/tmp/{uploaded_file.name}"
-            Image.open(uploaded_file).save(img_path)
+            if api_words:
+                raw_words = api_words
+            else:
+                # 尝试本地 OCR
+                ocr_func = get_ocr_engine()
+                if ocr_func is None:
+                    st.error("⚠️ OCR 不可用：请确保配置了 OCR_API_URL 或在本地运行")
+                    st.info("💡 本地运行: python ocr_api.py + ngrok http 5000")
+                    return
 
-            raw_words = ocr_func(img_path)
+                img_path = f"/tmp/{uploaded_file.name}"
+                Image.open(uploaded_file).save(img_path)
+                raw_words = ocr_func(img_path)
 
             if use_ai_correct and raw_words:
                 with st.spinner("🤖 AI纠正中..."):
@@ -145,7 +171,11 @@ def _render_import_section():
             added_count = 0
             for w in final_words:
                 if w.get('en') and w.get('cn'):
-                    exists = any(word['en'].lower() == w['en'].lower() for word in st.session_state.word_list)
+                    # 检查是否已存在（安全处理None值）
+                    exists = any(
+                        word.get('en') and word['en'].lower() == w['en'].lower()
+                        for word in st.session_state.word_list
+                    )
                     if not exists:
                         st.session_state.word_list.append({
                             'en': w.get('corrected', w['en']),
@@ -181,7 +211,7 @@ def _render_import_section():
                         parts = line.strip().split()
                         if len(parts) >= 2:
                             en, cn = parts[0], ' '.join(parts[1:])
-                            if not any(w['en'].lower() == en.lower() for w in st.session_state.word_list):
+                            if not any(w.get('en') and w['en'].lower() == en.lower() for w in st.session_state.word_list):
                                 st.session_state.word_list.append({'en': en, 'cn': cn, 'checked': False})
                                 count += 1
                     if count > 0:
