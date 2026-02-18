@@ -3,9 +3,15 @@
 """
 import re
 from typing import List, Dict, Tuple, Optional
-from paddleocr import PaddleOCR
 from PIL import Image, ImageEnhance, ImageFilter
 import numpy as np
+
+# PaddleOCR 仅本地使用
+try:
+    from paddleocr import PaddleOCR
+    PADDLEOCR_AVAILABLE = True
+except ImportError:
+    PADDLEOCR_AVAILABLE = False
 
 
 class HandwritingRecognizer:
@@ -18,6 +24,11 @@ class HandwritingRecognizer:
         Args:
             lang: 语言模型，'ch'(中英文混合) 或 'en'(仅英文)
         """
+        if not PADDLEOCR_AVAILABLE:
+            print("⚠️ PaddleOCR 不可用，手写识别功能仅限本地使用")
+            self.ocr = None
+            return
+
         print("正在初始化手写识别引擎...")
         self.ocr = PaddleOCR(
             use_angle_cls=True,  # 方向分类器
@@ -79,7 +90,10 @@ class HandwritingRecognizer:
         Returns:
             识别出的文字列表
         """
-        # ���处理
+        if self.ocr is None:
+            return []
+
+        # 预处理
         if preprocess:
             processed_path = self.preprocess_image(image_path)
         else:

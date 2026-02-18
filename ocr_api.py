@@ -23,7 +23,7 @@ def get_ocr_engine():
         try:
             from paddleocr import PaddleOCR
             print("初始化 PaddleOCR...")
-            ocr_engine = PaddleOCR(use_angle_cls=True, lang='ch', show_log=False)
+            ocr_engine = PaddleOCR(use_angle_cls=True, lang='ch')
             print("PaddleOCR 初始化完成!")
         except Exception as e:
             print(f"OCR 初始化失败: {e}")
@@ -122,4 +122,4 @@ if __name__ == '__main__':
     # 预热 OCR
     get_ocr_engine()
 
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5001, debug=False)

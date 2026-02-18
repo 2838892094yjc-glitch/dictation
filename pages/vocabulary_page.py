@@ -373,7 +373,9 @@ def _render_word_list():
     if not st.session_state.word_list:
         return
 
-    with st.expander(f"📋 查看词库列表（{len(st.session_state.word_list)}词）", expanded=False):
+    # 如果是手动勾选模式，自动展开列表
+    is_manual_mode = st.session_state.get('select_method') == '手动勾选'
+    with st.expander(f"📋 查看词库列表（{len(st.session_state.word_list)}词）", expanded=is_manual_mode):
         # 批量操作
         col1, col2, col3 = st.columns([1, 1, 2])
         with col1:
