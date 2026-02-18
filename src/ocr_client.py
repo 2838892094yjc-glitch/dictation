@@ -39,7 +39,7 @@ class OCRClient:
         if not self.api_url:
             return False
         try:
-            resp = requests.get(f"{self.api_url}/health", timeout=5)
+            resp = requests.get(f"{self.api_url}/health", timeout=10)
             return resp.status_code == 200
         except:
             return False

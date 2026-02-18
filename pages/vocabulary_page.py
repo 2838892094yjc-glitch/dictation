@@ -30,8 +30,16 @@ def get_ocr_api_words(image_file):
         if client.is_available():
             # 读取图片数据
             img = Image.open(image_file)
+            # RGBA 转 RGB
+            if img.mode == 'RGBA':
+                background = Image.new('RGB', img.size, (255, 255, 255))
+                background.paste(img, mask=img.split()[3])
+                img = background
+            elif img.mode != 'RGB':
+                img = img.convert('RGB')
+
             img_byte_arr = io.BytesIO()
-            img.save(img_byte_arr, format='JPEG')
+            img.save(img_byte_arr, format='JPEG', quality=85)
             img_data = img_byte_arr.getvalue()
 
             # 调用 API
