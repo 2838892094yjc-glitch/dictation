@@ -6,8 +6,25 @@ import os
 import requests
 from typing import List, Optional
 
-# API 地址配置
-OCR_API_URL = os.environ.get("OCR_API_URL", "")
+# API 地址配置（支持环境变量和 Streamlit secrets）
+def get_ocr_api_url():
+    # 优先从环境变量读取
+    url = os.environ.get("OCR_API_URL", "")
+    if url:
+        return url
+
+    # 再尝试从 st.secrets 读取
+    try:
+        import streamlit as st
+        url = st.secrets.get("OCR_API_URL", "")
+        if url:
+            return url
+    except:
+        pass
+
+    return ""
+
+OCR_API_URL = get_ocr_api_url()
 
 
 class OCRClient:
@@ -58,10 +75,13 @@ class OCRClient:
         return []
 
 
-# 全局客户端
-ocr_client = OCRClient()
+# 全局客户端（延迟初始化）
+_ocr_client = None
 
 
 def get_ocr_client() -> OCRClient:
     """获取 OCR 客户端"""
-    return ocr_client
+    global _ocr_client
+    if _ocr_client is None:
+        _ocr_client = OCRClient()
+    return _ocr_client
